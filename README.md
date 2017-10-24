@@ -3,6 +3,7 @@ Role Name
 
 This role installs and configures Gravitational Teleport
 
+
 Role Variables
 --------------
 The only main role variable is the "teleport_config".  This is the yaml used to build the configuration file for teleport depending on the type of node being deployed.
@@ -11,6 +12,8 @@ Dependencies
 ------------
 
 Right now the only dependency is supervisord being installed.
+
+
 Example Playbook
 ----------------
 
