@@ -14,7 +14,7 @@ Right now the only dependency is supervisord being installed.
 Example Playbook
 ----------------
 
----
+```---
 - name: Install Teleport
   hosts: all
   gather_facts: true
@@ -49,7 +49,7 @@ Example Playbook
         enabled: "no"
       proxy_service:
         enabled: "no"
-
+```
 License
 -------
 
