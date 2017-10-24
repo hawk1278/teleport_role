@@ -1,38 +1,56 @@
 Role Name
 =========
 
-A brief description of the role goes here.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role installs and configures Gravitational Teleport
 
 Role Variables
 --------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The only main role variable is the "teleport_config".  This is the yaml used to build the configuration file for teleport depending on the type of node being deployed.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
+Right now the only dependency is supervisord being installed.
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+---
+- name: Install Teleport
+  hosts: all
+  gather_facts: true
+  become: true
+  roles:
+  - role: teleport
+    teleport_config: |
+      teleport:
+        nodename: auth2
+        data_dir: /var/lib/teleport
+        log:
+          output: syslog
+          severity: INFO
+        storage:
+          type: dynamodb
+          region: us-east-1
+          table_name: teleport.state
+          access_key: 
+          secret_key: 
+        advertise_ip: 
+        auth_token: hello
+      auth_service:
+        cluster_name: tele-test
+        enabled: "yes"
+        listen_addr: 0.0.0.0:3025
+        tokens:
+          - "proxy,node:hello"
+        authentication:
+          type: local
+          second_factor: off
+      ssh_service:
+        enabled: "no"
+      proxy_service:
+        enabled: "no"
 
 License
 -------
 
 BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
