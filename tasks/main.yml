@@ -1,0 +1,21 @@
+# Installs teleport and dependencies.  Configures path and bash profile.
+---
+- name: Install Golang
+  unarchive:
+      src: "{{ gourl }}"
+      dest: /usr/local
+      remote_src: yes
+- name: Download Teleport
+  unarchive:
+      src: "{{ teleporturl }}"
+      dest: /opt
+      remote_src: yes
+- name: Install Teleport
+  make:
+      chdir: /opt/teleport
+- name: Configure bash profile
+  lineinfile:
+      path: /root/.bash_profile
+      backup: yes
+      line: "export PATH=$PATH:/usr/local/go/bin"
+- include: config.yml

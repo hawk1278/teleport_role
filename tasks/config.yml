@@ -1,0 +1,10 @@
+---
+- name: Ensure Teleport configuration is present
+  template:
+    src: "templates/teleport.yml.j2"    
+    dest: "/etc/teleport.yml"
+    force: yes
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart teleport

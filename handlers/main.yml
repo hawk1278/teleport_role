@@ -1,0 +1,6 @@
+---
+# handlers file for teleport
+- name: restart teleport
+  supervisorctl:
+      name: teleport
+      state: restarted
