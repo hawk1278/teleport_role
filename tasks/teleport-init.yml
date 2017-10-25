@@ -1,0 +1,10 @@
+---
+- name: Setup teleport startup script
+  template:
+    src: "templates/teleport-init.sh.j2"    
+    dest: "/etc/init.d/teleport"
+    force: yes
+    owner: root
+    group: root
+    mode: 0755
+  notify: restart teleport
