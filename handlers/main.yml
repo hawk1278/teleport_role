@@ -1,6 +1,5 @@
 ---
 # handlers file for teleport
 - name: restart teleport
-  supervisorctl:
-      name: teleport
-      state: restarted
+  service: name=teleport state=restarted
+  when: teleport_started
