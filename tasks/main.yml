@@ -19,3 +19,15 @@
       backup: yes
       line: "export PATH=$PATH:/usr/local/go/bin"
 - include: config.yml
+- include: teleport-init.yml
+  when: teleport_started or teleport_enabled
+- name: Ensure Teleport is started (if configured).
+  service:
+    name: teleport
+    state: started
+  when: teleport_started
+- name: Ensure Teleport is enabled at boot (if configured).
+  service:
+    name: teleport
+    enabled: yes
+  when: teleport_enabled
