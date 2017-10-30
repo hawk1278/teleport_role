@@ -1,7 +1,7 @@
 ---
 - name: Setup teleport startup script
-  template:
-    src: "templates/teleport-init.sh.j2"    
+  copy:
+    src: "files/teleport"    
     dest: "/etc/init.d/teleport"
     force: yes
     owner: root
