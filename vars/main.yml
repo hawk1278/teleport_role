@@ -1,7 +1,0 @@
----
-# Place holder for teleport configurations
-teleport_config: []
-teleport_role: []
-teleport_bin_path: /usr/local/bin/teleport
-teleport_started: true
-teleport_enabled: true
