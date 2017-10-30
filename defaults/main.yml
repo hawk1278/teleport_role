@@ -1,6 +1,8 @@
 ---
-# defaults file for teleport
 gofile: go1.9.linux-amd64.tar.gz
 telefile: v2.3.0-rc2/teleport-v2.3.0-rc2-linux-amd64-bin.tar.gz
 gourl: "https://storage.googleapis.com/golang/{{ gofile }}"
 teleporturl: "https://github.com/gravitational/teleport/releases/download/{{ telefile }}"
+teleport_config:
+teleport_started: true
+teleport_enabled: true
