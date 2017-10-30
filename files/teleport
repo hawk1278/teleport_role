@@ -1,0 +1,72 @@
+#!/bin/bash
+#
+# teleportd   Startup script for the Teleport ssh system
+#
+# chkconfig:    345 83 04
+# description: Teleport is a distributed ssh system
+# processname: teleport
+# config: /etc/teleport.yml
+# pidfile: /var/run/teleport.pid
+#
+### BEGIN INIT INFO
+# Provides: teleport
+# Required-Start: $all
+# Required-Stop: $all
+### END INIT INFO
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+teleport=/usr/local/bin/teleport
+prog=teleport
+pidfile=/var/run/teleport
+RETVAL=0
+config=/etc/teleport.yml
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon --pidfile="pidfile" "$teleport" start -c $config &
+    sleep 1
+    RETVAL=$?
+    PID=$(pgrep teleport)
+    echo $PID >> $pidfile
+    touch /var/lock/subsys/teleport    
+    echo
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc -p $pidfile $teleport
+    RETVAL=$?
+    echo
+    rm -rf /var/lock/subsys/teleport $pidfile
+    return $RETVAL
+}
+
+reload() {
+    stop
+    start
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo $"Usage: $prog {start|stop|restart}"
+        RETVAL=2
+esac
+
+exit $RETVAL
